@@ -38,7 +38,8 @@ app.register(autoload, {
 });
 
 app.get("/", async () => {
-  return { message: ` hello world :)  version: ${version} ` };
+  // return { message: ` hello world :)  version: ${version} ` };
+  return ` hello world :)  version: ${version} `
 });
 app
   .listen({ port: 3000, host: "127.0.0.1" })
