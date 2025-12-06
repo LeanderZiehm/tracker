@@ -1,2 +1,4 @@
-api/.env
+node_modules
+.env
 __pycache__
+old/
