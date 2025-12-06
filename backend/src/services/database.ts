@@ -1,13 +1,19 @@
-// import pg from "pg";
-// // import { Client } from 'pg'
+import pg from "pg";
+// import { Client } from 'pg'
 
-// const client = new pg.Client({
-//   host: process.env.POSTGRES_HOST,
-//   database: process.env.POSTGRES_DATABASE2,
-//   user: process.env.POSTGRES_ADMIN_USER, //process.env.POSTGRES_USER,
-//   password: process.env.POSTGRES_ADMIN_PASSWORD, //process.env.POSTGRES_PASSWORD
-// });
-// await client.connect();
+let client = null;
+
+try{
+    client = new pg.Client({
+  host: process.env.POSTGRES_HOST,
+  database: process.env.POSTGRES_DATABASE2,
+  user: process.env.POSTGRES_ADMIN_USER, //process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_ADMIN_PASSWORD, //process.env.POSTGRES_PASSWORD
+});
+await client.connect();
+}catch(error){
+ console.error(error);
+}
 
 export default async function get_bookmarks() {
 //   const sql = `SELECT id, created_at, "text", user_agent, ip_address, device_hash FROM bookmarks;`;
