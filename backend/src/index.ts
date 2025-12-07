@@ -6,7 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import autoload from "@fastify/autoload";
 
-const version = "0.0.2";
+const version = "0.0.3";
 
 process.on("uncaughtException", (err: Error) => {
   console.error("Uncaught Exception:", err);
@@ -17,7 +17,22 @@ process.on("unhandledRejection", (reason, promise) => {
 });
 
 dotenv.config();
-const app = fastify.fastify({ logger: true });
+
+const envToLogger:any = {
+  development: {
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname',
+      },
+    },
+  },
+  production: true,
+  test: false,
+}
+
+const app = fastify.fastify({ logger: envToLogger["development"] ?? true  });
 
 // Global error handler
 app.setErrorHandler((error, request, reply) => {
@@ -58,9 +73,12 @@ app.get("/", async () => {
   // return { message: ` hello world :)  version: ${version} ` };
   return ` hello world :)  version: ${version} `;
 });
+app.get("/favicon.ico", async () => {
+  return ``;
+});
 app
   .listen({ port: 3000, host: "127.0.0.1" })
-  .then(() => console.log("Server running on :3000"))
+  .then(() => 1)
   .catch((err) => {
     console.error(err);
     process.exit(1);
