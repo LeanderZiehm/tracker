@@ -18,21 +18,23 @@ process.on("unhandledRejection", (reason, promise) => {
 
 dotenv.config();
 
-const envToLogger:any = {
-  development: {
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        translateTime: 'HH:MM:ss Z',
-        ignore: 'pid,hostname',
-      },
-    },
-  },
-  production: true,
-  test: false,
-}
+// const envToLogger:any = {
+//   development: {
+//     transport: {
+//       target: 'pino-pretty',
+//       options: {
+//         translateTime: 'HH:MM:ss Z',
+//         ignore: 'pid,hostname',
+//       },
+//     },
+//   },
+//   production: true,
+//   test: false,
+// }
 
-const app = fastify.fastify({ logger: envToLogger["development"] ?? true  });
+// const app = fastify.fastify({ logger: envToLogger["development"] ?? true  });
+const app = fastify.fastify({ logger: true  });
+
 
 // Global error handler
 app.setErrorHandler((error, request, reply) => {
