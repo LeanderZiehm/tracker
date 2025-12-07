@@ -7,7 +7,7 @@
     "start": "node src/index.ts",
     "dev": "nodemon src/index.ts",
     "prod": "tsc && node dist/index.js",
-    "build": "tsc && node dist/index.js"
+    "xbuild": "tsc"
   },
   "keywords": [],
   "author": "",
