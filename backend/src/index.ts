@@ -6,10 +6,27 @@ import path from "path";
 import { fileURLToPath } from "url";
 import autoload from "@fastify/autoload";
 
-const version = "0.0.2"
+const version = "0.0.2";
+
+process.on("uncaughtException", (err: Error) => {
+  console.error("Uncaught Exception:", err);
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
 
 dotenv.config();
 const app = fastify.fastify({ logger: true });
+
+// Global error handler
+app.setErrorHandler((error, request, reply) => {
+  // Log the error
+  console.error("Global error handler:", error);
+
+  // Send a generic response to the client
+  reply.status(500).send({ error: "Internal Server Error" });
+});
 
 const swaggerOptions = {
   swagger: {
@@ -39,7 +56,7 @@ app.register(autoload, {
 
 app.get("/", async () => {
   // return { message: ` hello world :)  version: ${version} ` };
-  return ` hello world :)  version: ${version} `
+  return ` hello world :)  version: ${version} `;
 });
 app
   .listen({ port: 3000, host: "127.0.0.1" })

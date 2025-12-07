@@ -5,7 +5,8 @@ import {
   type FastifySchema,
 } from "fastify";
 // import get_bookmarks from "../services/database.ts";
-import get_bookmarks  from "../services/database.js";
+// import {get_bookmarks}  from "../services/database.js";
+import {get_bookmarks}  from "../services/database.js";
 
 
 export default async function (app: FastifyInstance) {
