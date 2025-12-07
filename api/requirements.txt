@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-psycopg[binary]
-psycopg-pool
-pydantic
-python-dotenv
-pydantic-settings
