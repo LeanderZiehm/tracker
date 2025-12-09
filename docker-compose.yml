@@ -18,12 +18,12 @@ services:
   # === FastAPI Backend ===
   backend:
     build:
-      context: ./api
+      context: ./backend
       dockerfile: Dockerfile
-    container_name: api
+    container_name: backend
     restart: unless-stopped
     env_file:
-      - ./api/.env
+      - ./backend/.env
     environment:
       DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/tracker
     depends_on:
