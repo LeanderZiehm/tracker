@@ -23,7 +23,7 @@ export default async function (app: FastifyInstance) {
       reply: FastifyReply
     ) => {
       // const { limit } = request.params;
-      const results = await get_texts();
+      const results = await get_texts(true,5);
       return JSON.stringify(results);
       // return "book book book 2";
     }

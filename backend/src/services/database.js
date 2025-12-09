@@ -29,8 +29,12 @@ async function get_client() {
 }
 
 class Texts {
-  static get_select_texts_sql() {
+    static get_select_all_texts_sql() {
     return `SELECT * FROM texts;`;
+  }
+  static get_select_texts_sql(descending=true,limit=5) {
+    const sortBy = descending ? "DESC" : "ASC"; 
+    return `SELECT * FROM texts ORDER BY timestamp ${sortBy} LIMIT ${limit};`;
   }
 
   static get_insert_texts_sql(text) {
@@ -49,16 +53,16 @@ class Texts {
   }
 }
 
-export async function get_texts() {
+export async function get_texts(descending=true,limit=5) {
   client = await get_client();
   if (client !== null) {
     try {
-      const sql = Texts.get_select_texts_sql();
+      const sql = Texts.get_select_texts_sql(descending,limit);
       console.log(sql);
       const result = await client.query(sql);
       // console.log(result.rows[0].message);
       console.log(result);
-      return result;
+      return result.rows;
     } catch (err) {
       console.error(err);
       return err;
