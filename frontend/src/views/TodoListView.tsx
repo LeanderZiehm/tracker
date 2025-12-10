@@ -1,17 +1,17 @@
+//@ts-nocheck
 import { useEffect, useState,forceUpdate } from "react";
 import { fetchTexts, insertText } from "../services/api";
 
-function TodoComponent() {
+
+export default function TodoList() {
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(true);
   const [texts, setTexts] = useState([]); // TODO FIX THIS
   const [error, setError] = useState(null);
-  // const [rerenderPlease,setRerender] = useState(0);
 
   useEffect(() => {
     fetchAndLoadTexts();
   }, []);
-  // rerenderPlease
 
   function fetchAndLoadTexts() {
     fetchTexts()
@@ -23,14 +23,11 @@ function TodoComponent() {
       .finally(() => setLoading(false)); // maybe TODO make a vscode extension that looks for errors and suggests fixes for them automatically and asks for accept or not
   }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault(); // prevent page reload
     if (typeof inputValue === "string") {
-      insertText(inputValue);
-      setInputValue(""); // optional: clear input after submit
-      // fetchAndLoadTexts();
-      // setRerender(rerenderPlease+1);
-      // this.forceUpdate()
+      setInputValue(""); 
+      await insertText(inputValue);
       fetchAndLoadTexts();
     }
   };
@@ -46,14 +43,13 @@ function TodoComponent() {
         />
         <button type="submit">Submit</button>
       </form>
-      <p>
+      <div>
         {texts.map((t) => (
-          <li id={t.id}><div>{t.timestamp}</div><div> {t.text} </div> </li>
+          // <div key={t.id} style={{block:"inline"}}><div style={{block:"inline"}}>{t.timestamp}</div><div style={{block:"inline"}}> {t.text} </div> </div>
+          <li key={t.id}>{t.text} </li>
         ))}
-      </p>
-      {/* <p>{JSON.stringify(texts)}</p> */}
+      </div>
     </>
   );
 }
 
-export default TodoComponent;
