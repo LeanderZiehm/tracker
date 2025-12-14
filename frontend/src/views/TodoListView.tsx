@@ -35,8 +35,8 @@ export default function TodoList() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input
-          style={{width: "370px"}}
+        <input autoFocus 
+          style={{width: "600px", height: "2rem"}}
           name="inputText"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
