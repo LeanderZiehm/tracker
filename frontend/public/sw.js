@@ -1,3 +1,44 @@
+self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+
+  if (event.request.method === "POST" && url.pathname === "/share") {
+    event.respondWith(handleShare(event));
+  }
+});
+
+async function handleShare(event) {
+  const formData = await event.request.formData();
+
+  const payload_text = `stash(share): title=${formData.get(
+    "title"
+  )} text=${formData.get("text")} url=${formData.get("url")}`;
+
+  const payload = {
+    text: payload_text,
+  };
+
+  //stash-api.leanderziehm.com/docs
+  // 1️⃣ Send to your API
+  https: await fetch("https://stash-api.leanderziehm.com/texts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  // Return a simple page (or blank) so the PWA stays open
+  return new Response(
+    `<html><body><script>
+      window.close(); // optionally try to close tab if it's a new window
+    </script></body></html>`,
+    { headers: { "Content-Type": "text/html" } }
+  );
+
+  // Return a blank response; nothing else happens
+  //   return new Response(null, { status: 204 });
+}
+
 // if (!self.define) {
 //   let e,
 //     s = {};
